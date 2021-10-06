@@ -35,6 +35,8 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
     .headerbox {
+        display: flex;
+        justify-content: center;
         width: 100%;
         min-height: 50px;
         max-height: 60px;  
