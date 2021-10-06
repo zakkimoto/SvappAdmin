@@ -1,6 +1,7 @@
 <template>
   <div class="recoverpage">
     <h1 id="gradienttext">GLEYMT LYKILORÐ</h1>
+    <img src="../assets/logo.png" width="125" height="50" id="logo"/>
     <input type="text" id="inputfieldrecover" placeholder="Email" v-model="input.email"/>
     <button type="button" v-on:click="recoverpass()" id="inputfieldrecover">Endurheimta Lykilorð</button>
   </div>
@@ -34,6 +35,7 @@ export default {
     height: 100vh; /* For 100% screen height */
     width:  100vw;
     background-color: #30363D;
+    align-items:center;
   }
   #gradienttext{
     font-family: Montserrat;
@@ -41,7 +43,7 @@ export default {
     padding: 0 auto;
     margin: 0 auto;
     margin-top: 50px;
-    margin-bottom: 100px;
+    margin-bottom: 0px;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -60,5 +62,8 @@ export default {
   #inputfieldrecover:focus{
     border-color:#A154F2;
     box-shadow:0 0 8px 0 #A154F2;
+  }
+  #logo{
+    padding-bottom: 10%;
   }
 </style>

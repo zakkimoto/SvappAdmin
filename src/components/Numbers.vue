@@ -2,7 +2,7 @@
 <template>
   <div>
     <Header/>
-    <h1>Tölur</h1>
+    <h1>Tölur </h1>
     
   </div>
 </template>

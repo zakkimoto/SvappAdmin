@@ -1,6 +1,7 @@
 <template>
   <div class="loginpage">
     <h1 id="gradienttext">SKRÁ INN</h1>
+    <img src="../assets/logo.png" width="125" height="50" id="logo"/>
     <input type="text" name="username" v-model="input.username" placeholder="Notendanafn" id="inputfieldlogin"/>
     <input type="password" name="password" v-model="input.password" placeholder="Lykilorð" id="inputfieldlogin"/>
     <button type="button" v-on:click="login()" id="inputfieldlogin">Skrá inn</button>
@@ -44,7 +45,7 @@ export default {
   .loginpage{
     display: flex;
     flex-direction: column;
-    
+    align-items:center;
     height: 100vh; /* For 100% screen height */
     width:  100vw;
     
@@ -79,12 +80,15 @@ export default {
     padding: 0 auto;
     margin: 0 auto;
     margin-top: 50px;
-    margin-bottom: 100px;
+    margin-bottom: 0px;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-image: linear-gradient(to right, #F27A54, #A154F2);
     
 
+  }
+  #logo{
+    padding-bottom: 10%;
   }
 </style>

@@ -1,6 +1,7 @@
 <template>
     <header class="headerbox">
-        <h1 id="sporlofrout" > SVAPP </h1>
+        
+        <img src="../assets/logo.png" width="125" height="50" id="routingbar"/>
         <a id="routingbar" v-on:click="home()">Heim </a>
         <a id="routingbar" v-on:click="numbers()">Tölur </a>
         <a id="routingbar" v-on:click="users()">Notendur </a>
