@@ -58,7 +58,7 @@ const router = new VueRouter(
           if(store.state.authenticated == false) {
             next('/login');
           }else{
-            next();
+            next('/home');
           }
         }
       },

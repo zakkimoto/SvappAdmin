@@ -5,6 +5,7 @@
         <a id="routingbar" v-on:click="numbers()">Tölur </a>
         <a id="routingbar" v-on:click="users()">Notendur </a>
         <a id="routingbar" v-on:click="messages()">Skilaboð </a>
+        <a id="routingbar" v-on:click="logout()">Útskrá </a>
         
     </header>
 </template>
@@ -25,6 +26,10 @@ export default {
         messages(){
             this.$router.replace({name: "messages"});
         },
+        logout(){
+            this.$store.commit("setAuthentication", false);
+            this.$router.replace({name: "login"});
+        }
         
 
     }
