@@ -71,21 +71,49 @@ const router = new VueRouter(
         path: '/home',
         name: 'home',
         component: Home,
+        beforeEnter: (to, from, next) => {
+          if(store.state.authenticated == false) {
+            next('/login');
+          }else{
+            next();
+          }
+        }
       },
       {
         path: '/numbers',
         name: 'numbers',
         component: Numbers,
+        beforeEnter: (to, from, next) => {
+          if(store.state.authenticated == false) {
+            next('/login');
+          }else{
+            next();
+          }
+        }
       },
       {
         path: '/users',
         name: 'users',
         component: Users,
+        beforeEnter: (to, from, next) => {
+          if(store.state.authenticated == false) {
+            next('/login');
+          }else{
+            next();
+          }
+        }
       },
       {
         path: '/messages',
         name: 'messages',
         component: Messages,
+        beforeEnter: (to, from, next) => {
+          if(store.state.authenticated == false) {
+            next('/login');
+          }else{
+            next();
+          }
+        }
       },
 
   ]
