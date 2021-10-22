@@ -10,6 +10,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Login',
   data(){
@@ -29,7 +30,10 @@ export default {
         this.$store.commit("setAuthentication", true);
         this.$router.replace({name: "secure"});
         
+        
       }else{
+        const test = this.$.auth.login(this.input.username, this.input.password);
+        console.log(test);
         console.log("username or password is not correct")
       }
     }
@@ -41,6 +45,7 @@ export default {
   
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
   .loginpage{
     display: flex;
@@ -48,6 +53,8 @@ export default {
     align-items:center;
     height: 100vh; /* For 100% screen height */
     width:  100vw;
+    justify-content:center;
+    align-items:center;
     
     background-color: #30363D;
   }

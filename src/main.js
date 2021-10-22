@@ -13,6 +13,10 @@ import Messages from './components/Messages.vue'
 
 
 
+
+
+
+
 Vue.config.productionTip = false
 
 Vue.use(Vuex);
@@ -95,13 +99,14 @@ const router = new VueRouter(
         path: '/users',
         name: 'users',
         component: Users,
+        /* 
         beforeEnter: (to, from, next) => {
           if(store.state.authenticated == false) {
             next('/login');
           }else{
             next();
           }
-        }
+        } */
       },
       {
         path: '/messages',

@@ -34,7 +34,18 @@
 
       </div>
       <div class ="col-2">
-        <h1>Col2</h1>
+        <div class = "userbox" v-for="u in users" :key="u.id">
+          {{u.name}}
+          <img src="../assets/profilepic.jpeg" id="profile-photo" width=70% height=70% alt="Mynd ekki fundin">
+          {{u.email}}
+          <div class="not-verified" v-if="u.veri == -1">
+          </div>
+          <div class="pending-verified" v-if="u.veri == 0">
+          </div>
+          <div class="active-verified" v-if="u.veri == 1">
+          </div>
+          
+        </div>
       </div>
     </div>
 
@@ -51,6 +62,55 @@ export default {
   components: {
     Header
   },
+  data(){
+    return{
+      users: [
+      {
+        id: 1,
+        name: 'Zakarias Fridriksson',
+        email: 'zakkitv@gmail.com',
+        veri: -1,
+        paid: 0
+      },
+      {
+        id: 2,
+        name: 'Jónas Fridriksson',
+        email: 'zakkitv@gmail.com',
+        veri: -1,
+        paid: 1
+      },
+      {
+        id: 3,
+        name: 'Oliver Fridriksson',
+        email: 'zakkitv@gmail.com',
+        veri: 1,
+        paid: 1
+      },
+      {
+        id: 4,
+        name: 'Bjarni Fridriksson',
+        email: 'zakkitv@gmail.com',
+        veri: 1,
+        paid: 0
+      },
+      {
+        id: 5,
+        name: 'Kalli Fridriksson',
+        email: 'zakkitv@gmail.com',
+        veri: 0,
+        paid: 0
+      },
+      {
+        id: 6,
+        name: 'Þórður Fridriksson',
+        email: 'zakkitv@gmail.com',
+        veri: 1,
+        paid: 1
+      },
+      
+      ]
+    }
+  }
   
   
 }
@@ -68,6 +128,45 @@ export default {
   
 }-->
 <style scoped>
+#profile-photo{
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.active-verified{
+  height: 25px;
+  width: 25px;
+  background-color: #6FCF97;
+  border-radius: 50%;
+}
+
+.pending-verified{
+  height: 25px;
+  width: 25px;
+  background-color: #F27A54;
+  border-radius: 50%;
+}
+
+.not-verified{
+  height: 25px;
+  width: 25px;
+  background-color: #30363D;
+  border-radius: 50%;
+}
+
+.userbox{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 30%;
+  background-color: #DB7082;
+  border-radius: 25px;
+  margin: 15px;
+}
 #texthvitur{
   color: white;
 }
@@ -109,6 +208,11 @@ export default {
   
 }
 .col-2{
+  display:flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
   width: 70%;
   height: 93vh;
   background-color: #30363D;

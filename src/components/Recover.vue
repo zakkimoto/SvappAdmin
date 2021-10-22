@@ -32,14 +32,20 @@ export default {
   .recoverpage{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     height: 100vh; /* For 100% screen height */
     width:  100vw;
     background-color: #30363D;
     align-items:center;
+    justify-content:center;
   }
   #gradienttext{
     font-family: Montserrat;
     font-size: 100px;
+    display: flex;
+    justify-content:center;
+    flex-wrap: wrap;
+    align-items:center;
     padding: 0 auto;
     margin: 0 auto;
     margin-top: 50px;
