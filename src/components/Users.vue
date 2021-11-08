@@ -34,15 +34,17 @@
 
       </div>
       <div class ="col-2">
-        <div class = "userbox" v-for="u in users" :key="u.id">
-          {{u.name}}
-          <img src="../assets/profilepic.jpeg" id="profile-photo" width=70% height=70% alt="Mynd ekki fundin">
+        <div class = "userbox" v-for="u in users" :key="u.svapp_user_id" v-on:click="routeToUser(u.svapp_user_id)">
+          <!-- senda user ID áfram á næstu síðu þegar ég er að fara routa á clickið {{u.user_name.split(",").splice(1)}} -->
+          
+          {{u.user_name.replace(")", "").replace("(", "").split(",")[1] + " " + u.user_name.replace(")", "").replace("(", "").split(",")[3]}}
+          <img v-bind:src="u.image_url" id="profile-photo" width=70% height=70% alt="Mynd ekki fundin">
           {{u.email}}
-          <div class="not-verified" v-if="u.veri == -1">
+          <div class="not-verified" v-if="u.verified == -1">
           </div>
-          <div class="pending-verified" v-if="u.veri == 0">
+          <div class="pending-verified" v-if="u.verified == 0">
           </div>
-          <div class="active-verified" v-if="u.veri == 1">
+          <div class="active-verified" v-if="u.verified == 1">
           </div>
           
         </div>
@@ -56,6 +58,7 @@
 
 <script>
 import Header from './Header.vue'
+import axios from 'axios';
 
 export default {
   name: 'Users',
@@ -64,55 +67,29 @@ export default {
   },
   data(){
     return{
-      users: [
-      {
-        id: 1,
-        name: 'Zakarias Fridriksson',
-        email: 'zakkitv@gmail.com',
-        veri: -1,
-        paid: 0
-      },
-      {
-        id: 2,
-        name: 'Jónas Fridriksson',
-        email: 'zakkitv@gmail.com',
-        veri: -1,
-        paid: 1
-      },
-      {
-        id: 3,
-        name: 'Oliver Fridriksson',
-        email: 'zakkitv@gmail.com',
-        veri: 1,
-        paid: 1
-      },
-      {
-        id: 4,
-        name: 'Bjarni Fridriksson',
-        email: 'zakkitv@gmail.com',
-        veri: 1,
-        paid: 0
-      },
-      {
-        id: 5,
-        name: 'Kalli Fridriksson',
-        email: 'zakkitv@gmail.com',
-        veri: 0,
-        paid: 0
-      },
-      {
-        id: 6,
-        name: 'Þórður Fridriksson',
-        email: 'zakkitv@gmail.com',
-        veri: 1,
-        paid: 1
-      },
-      
-      ]
+      users: null,
+      loading: true,
+      errored: false
     }
-  }
-  
-  
+  },
+  methods: {
+    routeToUser(id) {
+      this.$router.push({ name: 'user', params: { id: id } })
+    }
+  },
+  mounted () {
+      axios
+        .get('http://localhost:3000/api/v1/users')
+        .then(response => {
+          console.log(response.data)
+          this.users = response.data
+        })
+        .catch(error => {
+          console.error(error);
+          this.errored = true
+        })
+        .finally(() => this.loading = false)
+    }
 }
 </script>
 

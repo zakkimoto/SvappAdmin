@@ -10,10 +10,12 @@ import Home from './components/Home.vue'
 import Numbers from './components/Numbers.vue'
 import Users from './components/Users.vue'
 import Messages from './components/Messages.vue'
+import axios from 'axios';
+import User from './components/User.vue'
 
 
 
-
+Vue.prototype.$http = axios;
 
 
 
@@ -22,7 +24,7 @@ Vue.config.productionTip = false
 Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(emailjs);
-
+Vue.use(axios);
 
 
 
@@ -120,6 +122,20 @@ const router = new VueRouter(
           }
         }
       },
+      {
+        path: '/users/:id',
+        name: 'user',
+        component: User,
+        /* 
+        beforeEnter: (to, from, next) => {
+          if(store.state.authenticated == false) {
+            next('/login');
+          }else{
+            next();
+          }
+        }*/
+      },
+
 
   ]
 });
