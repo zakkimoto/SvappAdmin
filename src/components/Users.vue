@@ -143,6 +143,7 @@ export default {
   background-color: #DB7082;
   border-radius: 25px;
   margin: 15px;
+  overflow-y: scroll;
 }
 #texthvitur{
   color: white;
@@ -193,6 +194,7 @@ export default {
   width: 70%;
   height: 93vh;
   background-color: #30363D;
+  overflow-y: scroll;
 
 }
 </style>

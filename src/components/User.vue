@@ -5,17 +5,20 @@
     <h2>{{this.user[0].user_name.replace(")", "").replace("(", "").split(",")[1] + " " + this.user[0].user_name.replace(")", "").replace("(", "").split(",")[3]}}</h2>
     
     <div v-if="this.user[0].verified == 1">
-            <img v-bind:src="this.user[0].image_url" id="profile-photo" alt="Mynd ekki fundin">
-            <h2>{{this.user[0].user_name.replace(")", "").replace("(", "").split(",")[1] + " " + this.user[0].user_name.replace(")", "").replace("(", "").split(",")[3]}}</h2>
-            <h2>{{this.user[0].email}}</h2>
+        <img v-bind:src="this.user[0].image_url" id="profile-photo" alt="Mynd ekki fundin">
+        <h2>{{this.user[0].user_name.replace(")", "").replace("(", "").split(",")[1] + " " + this.user[0].user_name.replace(")", "").replace("(", "").split(",")[3]}}</h2>
+        <h2>{{this.user[0].email}}</h2>
 
     </div>
     
-    <div v-if="this.user[0].verified != 1">
-    <img v-bind:src="this.user[0].p_document" id="id_document" width=40% height=40% alt="Mynd ekki fundin">
-    <img v-bind:src="this.user[0].a_document" id="utilitybill" width=40% height=40% alt="Mynd ekki fundin">
+    <div v-if="this.user[0].verified == 0">
+        <img v-bind:src="this.user[0].p_document" id="id_document" width=40% height=40% alt="Mynd ekki fundin">
+        <img v-bind:src="this.user[0].a_document" id="utilitybill" width=40% height=40% alt="Mynd ekki fundin">
     <button v-on:click="verify()" type="button">samþykkja notanda</button>
     </div>  
+    <div v-if="this.user[0].verified == -1">
+        <h2>þessi notandi er ekki búinn að hlaða inn skjölum</h2>
+    </div>
 
   </div>
  
