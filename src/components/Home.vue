@@ -3,11 +3,17 @@
   <div>
     <Header/>
     <div class="row" id="box">
-      <div class="user-box">
-        {{users.length}}
+      <div class="message-box" v-on:click="routeToMessages()">
+        <div id="caption">
+          {{messages.length}}
+        </div>
+        <h1 id="caption"> Skilaboð í bið </h1>
       </div>
-      <div class="message-box" id="box">
-      {{messages.length}}
+      <div class="user-box" id="box" v-on:click="routeToUsers()">
+        <div id="caption">
+          {{users.length}}
+        </div>
+        <h1 id="caption"> Notendur í bið </h1>
       </div>
     </div>
     
@@ -58,6 +64,15 @@ export default {
           this.errored = true
         })
         .finally(() => this.loading = false)
+  },
+  methods: {
+    routeToUsers(){
+      this.$router.replace({name: "users"})
+    },
+    routeToMessages(){
+      this.$router.replace({name: "messages"})
+    }
+
   }
   
   
@@ -77,7 +92,9 @@ export default {
 .message-box {
   display: flex;
   background-image: linear-gradient(to right, #F27A54, #A154F2);
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 40%;
   height: 60%;
   margin: 10px;
@@ -88,11 +105,26 @@ export default {
 .user-box {
   display: flex;
   background-image: linear-gradient(to right, #F27A54, #A154F2);
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 40%;
   height: 60%;
   margin: 10px;
   border-radius: 25px;
   filter: drop-shadow(5px 5px 5px black);
+}
+
+#caption {
+  font-family: Montserrat;
+  font-size: 400%;
+  padding: 0 auto;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 0px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(to right, white, #FAF9F6);
 }
 </style>
