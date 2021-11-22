@@ -3,7 +3,6 @@
         
         <img src="../assets/logo.png" width="125" height="50" id="routingbar"/>
         <a id="routingbar" v-on:click="home()">Heim </a>
-        <a id="routingbar" v-on:click="numbers()">Tölur </a>
         <a id="routingbar" v-on:click="users()">Notendur </a>
         <a id="routingbar" v-on:click="messages()">Skilaboð </a>
         <a id="routingbar" v-on:click="logout()">Útskrá </a>

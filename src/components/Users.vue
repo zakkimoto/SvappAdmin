@@ -8,25 +8,26 @@
     <div class ="row-2">
       <div class ="col-1">
         <h1 id = "texthvitur">LEITA</h1>
-        <input type="text" placeholder="TEXTI" id="input"/>
+
+        <input type="text" v-model="search" placeholder="TEXTI" id="input"/>
 
 
-        <input type="checkbox" id="checkbox-1" name="vehicle1" value="verified">
+        <input type="radio" id="checkbox-1" name="radio-3" value="1">
         <label for="vehicle1"> Búið að auðkenna </label>
-        <input type="checkbox" id="checkbox-2" name="vehicle2" value="pending">
+        <input type="radio" id="checkbox-2" name="radio-3" value="0">
         <label for="vehicle2"> Auðkenning í bið </label>
-        <input type="checkbox" id="checkbox-3" name="vehicle3" value="not-verified">
+        <input type="radio" id="checkbox-3" name="radio-3" value="-1">
         <label for="vehicle3"> Ekki búið að auðkenna </label>
 
-        <input type="radio" id="paid" name="radio-1" value="paid">
+        <input type="radio" id="paid" name="radio-1" value="true">
         <label for="active">Búinn að borga</label>
-        <input type="radio" id="notpaid" name="radio-1" value="notpaid">
+        <input type="radio" id="notpaid" name="radio-1" value="false">
         <label for="notactive">Ekki búið að borga</label>
 
 
-        <input type="radio" id="active" v-model="active" name="radio-2" value="active">
+        <input type="radio" id="active" v-model="active" name="radio-2" value="true">
         <label for="active">Virkur</label>
-        <input type="radio" id="notactive" name="radio-2" value="notactive">
+        <input type="radio" id="notactive" name="radio-2" value="false">
         <label for="notactive">Ekki Virkur</label>
       
         <button type="button" id="input">LEITA</button>
@@ -67,6 +68,8 @@ export default {
   },
   data(){
     return{
+      search: "",
+      sortusers: null,
       users: null,
       loading: true,
       errored: false
@@ -75,14 +78,16 @@ export default {
   methods: {
     routeToUser(id) {
       this.$router.push({ name: 'user', params: { id: id } })
-    }
+    },
   },
+
   mounted () {
       axios
         .get('http://localhost:3000/api/v1/users')
         .then(response => {
           console.log(response.data)
           this.users = response.data
+          this.sortusers = response.data
         })
         .catch(error => {
           console.error(error);
@@ -180,7 +185,7 @@ export default {
   flex-direction: column;
   border: 4px black;
   width: 30%;
-  height: 93vh;
+  height: 94vh;
   background-color: #747D88;
   align-items: center;
   
@@ -192,7 +197,7 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   width: 70%;
-  height: 93vh;
+  height: 94vh;
   background-color: #30363D;
   overflow-y: scroll;
 

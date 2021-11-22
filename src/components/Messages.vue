@@ -5,12 +5,16 @@
       <Header/>
     </div>
     <div class="row-2">
-      <div class="col-1">
-        <h1>Hér koma öll skilaboð</h1>
+      <div class="col-1" v-for="m in messages" :key="m.id">
+        <div class="message-box">
+          {{m.id}}
+        </div>
       </div>
+      
       <div class="col-2">
         <div class="col-3">
           <h1>Zakarías Friðriksson</h1>
+          
         </div>
         <div class="col-4">
           <h1>haha</h1>
@@ -28,11 +32,32 @@
 
 <script>
 import Header from './Header.vue'
+import axios from 'axios';
 
 export default {
   name: 'Messages',
   components: {
     Header
+  },
+  data(){
+    return{
+      messages: null,
+      loading: true,
+      errored: false
+    }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:3000/api/v1/messages')
+      .then(response => {
+        console.log(response.data)
+        this.messages = response.data
+      })
+      .catch(error => {
+        console.error(error);
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
   }
   
 }
@@ -40,6 +65,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.message-box{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  
+}
 
 #input{
   width: 90%;
@@ -86,13 +120,17 @@ export default {
 }
 
 .col-1{
-  display:flex;
+  display: flex;
   flex-direction: column;
-  border: 4px black;
-  width: 30%;
-  height: 93vh;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  flex: 1;
+  width: 20px;
+  height: 94vh;
   background-color: #747D88;
+  justify-content:start;
   align-items: center;
+
   
 }
 .col-2{
@@ -100,8 +138,8 @@ export default {
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
-  width: 70%;
-  height: 93vh;
+  width: 80%;
+  height: 94vh;
   background-color: #30363D;
   
 
