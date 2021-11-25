@@ -2,124 +2,157 @@
 <template>
   <div class="container">
     <div class="row-1">
-      <Header/>
+      <Header />
     </div>
     <div class="row-2">
-      <div class="col-1" v-for="m in messages" :key="m.id">
-        <div class="message-box">
-          {{m.id}}
+      <div class="col-1">
+        <div v-for="m in messages" :key="m.id">
+          <div class="message-box" v-on:click="switch_message(m.id)">
+            {{ m.email }}
+            
+          </div>
         </div>
       </div>
-      
+
       <div class="col-2">
         <div class="col-3">
-          <h1>Zakarías Friðriksson</h1>
-          
+          <h1>{{ message_in_focus.question }}</h1>
         </div>
         <div class="col-4">
-          <h1>haha</h1>
+          <h1>{{ message_in_focus.answer }}</h1>
         </div>
         <div class="col-5">
-          <input type="text" placeholder="TEXTI" id="input"/>
-          <button type="button" id="button">Senda</button>
-          
+          <input type="text" placeholder="TEXTI" v-model="answer" id="input" />
+          <button type="button" id="button" v-on:click="send_answer()">
+            Senda
+          </button>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
 <script>
-import Header from './Header.vue'
-import axios from 'axios';
+import Header from "./Header.vue";
+import axios from "axios";
 
 export default {
-  name: 'Messages',
+  name: "Messages",
   components: {
-    Header
+    Header,
   },
-  data(){
-    return{
+  data() {
+    return {
       messages: null,
       loading: true,
-      errored: false
-    }
+      errored: false,
+      message_in_focus: null,
+      answer: null,
+      users: null,
+    };
   },
-  mounted () {
+  methods: {
+    switch_message(message_id) {
+      this.answer = null;
+      this.message_in_focus = this.messages.find(
+        (message) => message.id == message_id
+      );
+    },
+    send_answer() {
+      if (this.answer !== null) {
+        this.message_in_focus.answer = this.answer;
+        axios
+          .patch(`http://localhost:3000/api/v1/messages/${this.message_in_focus.id}`, {
+            answer: this.answer
+          })
+          .then((response) => {
+            this.messages = response.data;
+            this.message_in_focus =
+              this.messages.length > 0 ? this.messages[0] : null;
+          })
+          .catch((error) => {
+            console.error(error);
+            this.errored = true;
+          })
+          .finally(() => (this.loading = false));
+      }
+    },
+  },
+  mounted() {
     axios
-      .get('http://localhost:3000/api/v1/messages')
-      .then(response => {
-        console.log(response.data)
-        this.messages = response.data
+      .get("http://localhost:3000/api/v1/messages")
+      .then((response) => {
+        this.messages = response.data;
+        console.log(this.messages)
+        this.message_in_focus =
+          this.messages.length > 0 ? this.messages[0] : null;
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
-        this.errored = true
+        this.errored = true;
       })
-      .finally(() => this.loading = false)
-  }
-  
-}
+      .finally(() => (this.loading = false));
+        
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.message-box{
-  display:flex;
-  flex-direction: column;
+.message-box {
+  display: flex;
+  flex-wrap: wrap;
+  height: 50px;
+  width: 100%;
+  margin: auto;
+  background-color: white;
   justify-content: center;
-  align-items: center;
-
-  
+  align-items: start;
 }
 
-#input{
+#input {
   width: 90%;
-  border-radius:4px;
-  margin:8px auto;
-  outline:none;
-  padding:8px;
-  box-sizing:border-box;
-  transition:.3s;
+  border-radius: 4px;
+  margin: 8px auto;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
 }
 
-#input:focus{
-  border-color:#A154F2;
-  box-shadow:0 0 8px 0 #A154F2;
+#input:focus {
+  border-color: #a154f2;
+  box-shadow: 0 0 8px 0 #a154f2;
 }
 
-#button{
+#button {
   width: 10%;
-  border-radius:4px;
-  margin:8px auto;
-  outline:none;
-  padding:8px;
-  box-sizing:border-box;
-  transition:.3s;
+  border-radius: 4px;
+  margin: 8px auto;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
 }
 
-#button:focus{
-  border-color:#A154F2;
-  box-shadow:0 0 8px 0 #A154F2;
+#button:focus {
+  border-color: #a154f2;
+  box-shadow: 0 0 8px 0 #a154f2;
 }
 
-
-.container{
-  display:flex;
+.container {
+  display: flex;
   justify-content: flex-start;
   flex-direction: column;
   font-family: Montserrat;
 }
 
-.row-2{
-  display:flex;
+.row-2 {
+  display: flex;
   flex-direction: row;
-  
 }
 
-.col-1{
+.col-1 {
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
@@ -127,44 +160,35 @@ export default {
   flex: 1;
   width: 20px;
   height: 94vh;
-  background-color: #747D88;
-  justify-content:start;
+  background-color: #747d88;
+  justify-content: start;
   align-items: center;
-
   
 }
-.col-2{
-  display:flex;
+.col-2 {
+  display: flex;
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
   width: 80%;
   height: 94vh;
-  background-color: #30363D;
-  
-
+  background-color: #30363d;
 }
 
-.col-3{
+.col-3 {
   width: 100%;
-  display:flex;
+  display: flex;
 }
 
-.col-4{
+.col-4 {
   height: 90%;
   width: 100%;
-  display:flex;
-  
+  display: flex;
 }
-.col-5{
-  
+.col-5 {
   width: 100%;
-  display:flex;
+  display: flex;
   align-items: end;
   justify-content: end;
-  
-  
-  
 }
-
 </style>

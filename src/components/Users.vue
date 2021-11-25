@@ -12,30 +12,30 @@
         <input type="text" v-model="search" placeholder="TEXTI" id="input"/>
 
 
-        <input type="radio" id="checkbox-1" name="radio-3" value="1">
+        <input type="radio" v-model="verified" id="checkbox-1" name="radio-3" value="1">
         <label for="vehicle1"> Búið að auðkenna </label>
-        <input type="radio" id="checkbox-2" name="radio-3" value="0">
+        <input type="radio" v-model="verified" id="checkbox-2" name="radio-3" value="0">
         <label for="vehicle2"> Auðkenning í bið </label>
-        <input type="radio" id="checkbox-3" name="radio-3" value="-1">
+        <input type="radio" v-model="verified" id="checkbox-3" name="radio-3" value="-1">
         <label for="vehicle3"> Ekki búið að auðkenna </label>
 
-        <input type="radio" id="paid" name="radio-1" value="true">
+        <input type="radio" id="paid" v-model="paid" name="radio-1" value="true">
         <label for="active">Búinn að borga</label>
-        <input type="radio" id="notpaid" name="radio-1" value="false">
+        <input type="radio" id="notpaid" v-model="paid" name="radio-1" value="false">
         <label for="notactive">Ekki búið að borga</label>
 
 
         <input type="radio" id="active" v-model="active" name="radio-2" value="true">
         <label for="active">Virkur</label>
-        <input type="radio" id="notactive" name="radio-2" value="false">
+        <input type="radio" id="notactive" v-model="active" name="radio-2" value="false">
         <label for="notactive">Ekki Virkur</label>
       
-        <button type="button" id="input">LEITA</button>
-        <button type="button" id="input">HREINSA</button>
+        <button type="button" id="input" v-on:click="filter()">LEITA</button>
+        <button type="button" id="input" v-on:click="clear()">HREINSA</button>
 
       </div>
       <div class ="col-2">
-        <div class = "userbox" v-for="u in users" :key="u.svapp_user_id" v-on:click="routeToUser(u.svapp_user_id)">
+        <div class = "userbox" v-for="u in filtered_users" :key="u.svapp_user_id" v-on:click="routeToUser(u.svapp_user_id)">
           <!-- senda user ID áfram á næstu síðu þegar ég er að fara routa á clickið {{u.user_name.split(",").splice(1)}} -->
           
           {{u.user_name.replace(")", "").replace("(", "").split(",")[1] + " " + u.user_name.replace(")", "").replace("(", "").split(",")[3]}}
@@ -69,16 +69,52 @@ export default {
   data(){
     return{
       search: "",
-      sortusers: null,
       users: null,
+      filtered_users: null,
       loading: true,
-      errored: false
+      errored: false,
+      verified: null,
+      active: null,
+      paid: null,
     }
   },
   methods: {
     routeToUser(id) {
       this.$router.push({ name: 'user', params: { id: id } })
     },
+    filter() {
+      this.filtered_users =  this.users.filter(user => user.user_name.includes(this.search) || user.email.includes(this.search))
+      if(this.verified !== null){
+        this.filtered_users = this.filtered_users.filter(user  => user.verified == this.verified)
+      }
+      if(this.active !== null){
+        console.log(this.active);
+        if(this.active == "true"){
+          console.log("2")
+          this.filtered_users = this.filtered_users.filter(user => user.active)
+        }else{
+          console.log("her")
+          this.filtered_users = this.filtered_users.filter(user => !user.active)
+        }
+      }
+      if(this.paid !== null){
+        if(this.paid == "true"){
+          this.filtered_users = this.filtered_users.filter(user => user.paid)
+        }else{
+          this.filtered_users = this.filtered_users.filter(user => !user.paid)
+        }
+      }
+        
+      
+      console.log(this.filtered_users);
+    },
+    clear(){
+      this.filtered_users = this.users;
+      this.verified = null;
+      this.active = null;
+      this.paid = null;
+      this.search = "";
+    }
   },
 
   mounted () {
@@ -87,7 +123,7 @@ export default {
         .then(response => {
           console.log(response.data)
           this.users = response.data
-          this.sortusers = response.data
+          this.filtered_users = this.users
         })
         .catch(error => {
           console.error(error);
@@ -143,11 +179,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 20%;
-  height: 30%;
+  width: 220px;
+  height: 220px;
   background-color: #DB7082;
   border-radius: 25px;
-  margin: 15px;
+  margin: 15px auto;
   overflow-y: scroll;
 }
 #texthvitur{
@@ -192,9 +228,9 @@ export default {
 }
 .col-2{
   display:flex;
-  justify-content: flex-start;
+  justify-content: start;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   flex-wrap: wrap;
   width: 70%;
   height: 94vh;

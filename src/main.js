@@ -114,6 +114,7 @@ const router = new VueRouter(
         path: '/messages',
         name: 'messages',
         component: Messages,
+        /* 
         beforeEnter: (to, from, next) => {
           if(store.state.authenticated == false) {
             next('/login');
@@ -121,7 +122,9 @@ const router = new VueRouter(
             next();
           }
         }
+        */
       },
+
       {
         path: '/users/:id',
         name: 'user',
