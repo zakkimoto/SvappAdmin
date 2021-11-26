@@ -2,7 +2,9 @@
 <template>
   <div>
     <Header/>
+    
     <div class="row" id="box">
+
       <div class="message-box" v-on:click="routeToMessages()">
         <div id="caption">
           {{messages.length}}
@@ -21,13 +23,15 @@
 </template>
 
 <script>
-import Header from './Header.vue'
+import Header from '../components/Header.vue'
 import axios from 'axios';
+
 
 export default {
   name: 'Home',
   components: {
-    Header
+    Header,
+
   },
   data(){
     return{

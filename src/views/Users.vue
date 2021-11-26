@@ -7,8 +7,10 @@
     </div>
     <div class ="row-2">
       <div class ="col-1">
+        
         <h1 id = "texthvitur">LEITA</h1>
-
+        
+        
         <input type="text" v-model="search" placeholder="TEXTI" id="input"/>
 
 
@@ -32,6 +34,7 @@
       
         <button type="button" id="input" v-on:click="filter()">LEITA</button>
         <button type="button" id="input" v-on:click="clear()">HREINSA</button>
+        <SvappAnimation id="svapp-animation"/> 
 
       </div>
       <div class ="col-2">
@@ -58,13 +61,16 @@
 </template>
 
 <script>
-import Header from './Header.vue'
+import Header from '../components/Header.vue'
 import axios from 'axios';
+import SvappAnimation from '../components/SvappAnimation.vue'
+
 
 export default {
   name: 'Users',
   components: {
-    Header
+    Header,
+    SvappAnimation,
   },
   data(){
     return{
@@ -146,6 +152,11 @@ export default {
   
 }-->
 <style scoped>
+
+#svapp-animation{
+  padding-top: 10%;
+}
+
 #profile-photo{
   width: 70%;
   height: 70%;
@@ -210,6 +221,8 @@ export default {
   flex-direction: column;
   font-family: Montserrat;
 }
+
+
 
 .row-2{
   display:flex;

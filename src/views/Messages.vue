@@ -8,8 +8,12 @@
       <div class="col-1">
         <div v-for="m in messages" :key="m.id">
           <div class="message-box" v-on:click="switch_message(m.id)">
-            {{ m.email }}
-            
+            <div id="answered" v-if="m.done">
+              {{ m.email }}
+            </div>
+            <div id="notanswered" v-else>
+              {{ m.email }}
+            </div>
           </div>
         </div>
       </div>
@@ -33,8 +37,9 @@
 </template>
 
 <script>
-import Header from "./Header.vue";
+import Header from '../components/Header.vue'
 import axios from "axios";
+var nodemailer = require('nodemailer')
 
 export default {
   name: "Messages",
@@ -76,6 +81,31 @@ export default {
           })
           .finally(() => (this.loading = false));
       }
+    
+      console.log("zakki")
+      var transporter = nodemailer.createTransporter({
+        service: 'gmail',
+        auth: {
+          user: 'svappzakki@gmail.com',
+          pass: 'Svappmoto1'
+        }
+      })
+
+      var mailOptions = {
+        from: 'svappzakki@gmail.com',
+        to: 'zakkitv@gmail.com',
+        subject: 'Sending Test',
+        text: 'That was Easy!'
+      }
+
+      transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+          console.log(error);
+        }else{
+          console.log(info.response)
+        }
+      })
+
     },
   },
   mounted() {
@@ -99,15 +129,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+#notanswered{
+  background-color: green;
+  width: 100%;
+}
+
+#answered{
+  background-color: red;
+  width: 100%;
+}
+
 .message-box {
   display: flex;
-  flex-wrap: wrap;
   height: 50px;
-  width: 100%;
-  margin: auto;
-  background-color: white;
+  width: 200px;
+  margin:0px;
   justify-content: center;
   align-items: start;
+
 }
 
 #input {
@@ -156,7 +196,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
-  flex-wrap: wrap;
+  overflow-y: scroll;
   flex: 1;
   width: 20px;
   height: 94vh;

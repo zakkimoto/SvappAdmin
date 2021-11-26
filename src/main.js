@@ -3,15 +3,15 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import emailjs from 'emailjs-com';
 import App from './App.vue'
-import Login from './components/Login.vue'
-import Secure from './components/Secure.vue'
-import Recover from './components/Recover.vue'
-import Home from './components/Home.vue'
-import Numbers from './components/Numbers.vue'
-import Users from './components/Users.vue'
-import Messages from './components/Messages.vue'
+import Login from './views/Login.vue'
+import Secure from './views/Secure.vue'
+import Recover from './views/Recover.vue'
+import Home from './views/Home.vue'
+//import Numbers from './views/Numbers.vue'
+import Users from './views/Users.vue'
+import Messages from './views/Messages.vue'
 import axios from 'axios';
-import User from './components/User.vue'
+import User from './views/User.vue'
 
 
 
@@ -85,6 +85,7 @@ const router = new VueRouter(
           }
         }
       },
+      /*
       {
         path: '/numbers',
         name: 'numbers',
@@ -96,7 +97,7 @@ const router = new VueRouter(
             next();
           }
         }
-      },
+      },*/
       {
         path: '/users',
         name: 'users',
