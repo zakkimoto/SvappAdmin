@@ -39,7 +39,7 @@
 <script>
 import Header from '../components/Header.vue'
 import axios from "axios";
-var nodemailer = require('nodemailer')
+
 
 export default {
   name: "Messages",
@@ -74,6 +74,7 @@ export default {
             this.messages = response.data;
             this.message_in_focus =
               this.messages.length > 0 ? this.messages[0] : null;
+            this.$router.go(0)
           })
           .catch((error) => {
             console.error(error);
@@ -82,29 +83,7 @@ export default {
           .finally(() => (this.loading = false));
       }
     
-      console.log("zakki")
-      var transporter = nodemailer.createTransporter({
-        service: 'gmail',
-        auth: {
-          user: 'svappzakki@gmail.com',
-          pass: 'Svappmoto1'
-        }
-      })
-
-      var mailOptions = {
-        from: 'svappzakki@gmail.com',
-        to: 'zakkitv@gmail.com',
-        subject: 'Sending Test',
-        text: 'That was Easy!'
-      }
-
-      transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-          console.log(error);
-        }else{
-          console.log(info.response)
-        }
-      })
+    
 
     },
   },
