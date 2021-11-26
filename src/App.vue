@@ -16,6 +16,7 @@ export default {
 <style>
  * {
        margin: 0;
+       
    }
 
 </style>
