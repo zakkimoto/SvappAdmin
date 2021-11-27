@@ -1,134 +1,88 @@
 
 <template>
   <div>
-    <Header/>
-    
-    <div class="row" id="box">
-
-      <div class="message-box" v-on:click="routeToMessages()">
-        <div id="caption">
-          {{messages.length}}
-        </div>
-        <h1 id="caption"> Skilaboð í bið </h1>
-      </div>
-      <div class="user-box" id="box" v-on:click="routeToUsers()">
-        <div id="caption">
-          {{users.length}}
-        </div>
-        <h1 id="caption"> Notendur í bið </h1>
-      </div>
-    </div>
-    
+    <Header />
+    <GmapMap
+                id="Map"
+                :center="this.center"
+                :zoom="4"
+                map-type-id="terrain"
+                style="width: 100%; height: 94vh;"
+                >
+                <GmapMarker
+                    :key="index"
+                    v-for="(m, index) in marker"
+                    :position="{lat: m.lat, lng: m.lng}"
+                    :clickable="true"
+                    :draggable="true"
+                    @click="center=m.position"
+                />
+                </GmapMap> 
   </div>
 </template>
 
 <script>
-import Header from '../components/Header.vue'
+import Header from "../components/Header.vue";
 import axios from 'axios';
 
-
 export default {
-  name: 'Home',
+  name: "Properties",
   components: {
     Header,
-
   },
-  data(){
-    return{
-      users: null,
-      messages: null,
-      messageloading:true,
-      messageerrored: false,
-      userloading: true,
-      usererrored: false,
-    }
+  data() {
+    return {
+      properties: null,
+      marker: [],
+      center:{
+          lat:65, lng:10,
+          },
+    };
   },
-  mounted () {
-    axios
-      .get('http://localhost:3000/api/v1/messages/active')
-      .then(response => {
-        console.log(response.data)
-        this.messages = response.data
-      })
-      .catch(error => {
-        console.error(error);
-        this.messageerrored = true
-      })
-      .finally(() => this.messageloading = false)
-
+  mounted(){
       axios
-        .get('http://localhost:3000/api/v1/users/pending')
+        .get('http://localhost:3000/api/v1/properties/all')
         .then(response => {
-          console.log(response.data)
-          this.users = response.data
-          this.sortusers = response.data
+            this.properties = response.data
+            console.log(this.properties)
+            for (let i = 0; i < this.properties.length; i++){
+                console.log(response.data[i].street_name)
+                axios
+                    .get('https://maps.googleapis.com/maps/api/geocode/json?address=,' + response.data[i].street_name+ ' ' + response.data[i].street_name + ' Iceland&key=AIzaSyDImhMtVnZfl8Iim3YJqTbZLsHYs75NuLg')
+                    .then(response =>{
+                        console.log(response.data.results[0].geometry.location.lat)
+                        if(response.data.results[0].geometry.location.lat != undefined){
+                            this.marker.push({
+                            lat: response.data.results[0].geometry.location.lat, 
+                            lng: response.data.results[0].geometry.location.lng
+
+                        })
+                        }else{
+                            console.log("address not valid")
+                        }
+                        
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+
+
+                
+                console.log(this.marker.lat)
+                
+               
+                
+                
+            }
+
         })
         .catch(error => {
-          console.error(error);
-          this.errored = true
+            console.error(error);
         })
-        .finally(() => this.loading = false)
-  },
-  methods: {
-    routeToUsers(){
-      this.$router.replace({name: "users"})
-    },
-    routeToMessages(){
-      this.$router.replace({name: "messages"})
-    }
-
   }
-  
-  
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.row {
-  height: 94vh;
-  display: flex;
-  flex-direction: row;
-  justify-content:center;
-  align-items: center;
-  background-color: #30363D;
-}
-.message-box {
-  display: flex;
-  background-image: linear-gradient(to right, #F27A54, #A154F2);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 40%;
-  height: 60%;
-  margin: 10px;
-  border-radius: 25px;
-  filter: drop-shadow(5px 5px 5px black);
-}
-
-.user-box {
-  display: flex;
-  background-image: linear-gradient(to right, #F27A54, #A154F2);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 40%;
-  height: 60%;
-  margin: 10px;
-  border-radius: 25px;
-  filter: drop-shadow(5px 5px 5px black);
-}
-
-#caption {
-  font-family: Montserrat;
-  font-size: 400%;
-  padding: 0 auto;
-  margin: 0 auto;
-  margin-top: 50px;
-  margin-bottom: 0px;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(to right, white, #FAF9F6);
-}
 </style>

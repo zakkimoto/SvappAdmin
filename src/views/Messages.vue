@@ -25,6 +25,10 @@
         <div class="col-4">
           <h1>{{ message_in_focus.answer }}</h1>
         </div>
+
+        <h1 id="popup" v-if="render">
+          Svar hefur verið sent á viðeigandi aðilla
+        </h1>
         <div class="col-5">
           <input type="text" placeholder="TEXTI" v-model="answer" id="input" />
           <button type="button" id="button" v-on:click="send_answer()">
@@ -37,9 +41,9 @@
 </template>
 
 <script>
-import Header from '../components/Header.vue'
+import Header from "../components/Header.vue";
 import axios from "axios";
-
+import emailjs from "emailjs-com";
 
 export default {
   name: "Messages",
@@ -54,6 +58,17 @@ export default {
       message_in_focus: null,
       answer: null,
       users: null,
+      key: 1,
+      render: false,
+      contactparams: {
+        from_name: 'Svapp Admin',
+        to_name: null,
+        message: 'sælirkall',
+        answer: 'svar',
+        question_id: 'þetta er id',
+        user_email: 'zakkitv@gmail.com',
+        reply_to: 'bla',
+      },
     };
   },
   methods: {
@@ -64,27 +79,62 @@ export default {
       );
     },
     send_answer() {
+      this.loading = true;
       if (this.answer !== null) {
         this.message_in_focus.answer = this.answer;
         axios
-          .patch(`http://localhost:3000/api/v1/messages/${this.message_in_focus.id}`, {
-            answer: this.answer
-          })
+          .patch(
+            `http://localhost:3000/api/v1/messages/${this.message_in_focus.id}`,
+            {
+              answer: this.answer,
+            }
+          )
           .then((response) => {
             this.messages = response.data;
             this.message_in_focus =
               this.messages.length > 0 ? this.messages[0] : null;
-            this.$router.go(0)
+            //this.$router.go()
+            axios
+              .get("http://localhost:3000/api/v1/messages")
+              .then((response) => {
+                this.messages = response.data;
+                console.log(this.messages);
+                this.message_in_focus =
+                  this.messages.length > 0 ? this.messages[0] : null;
+              })
+              .catch((error) => {
+                console.error(error);
+                this.errored = true;
+              })
+              .finally(() => (this.loading = false));
+
+            this.answer = null;
+            setTimeout(
+              function () {
+                this.render = false;
+              }.bind(this),
+              3000
+            );
+            this.render = true;
           })
           .catch((error) => {
             console.error(error);
             this.errored = true;
           })
           .finally(() => (this.loading = false));
+        
+          try{
+            this.contactparams.message = this.message_in_focus.question
+            this.contactparams.answer = this.message_in_focus.answer
+            console.log(this.message_in_focus.question)
+            console.log("try eamil");
+            emailjs.send('service_bkc5rum', 'template_aqgbrcc',this.contactparams, emailjs.init("user_I8Ill7xXvGcLUVWAQdKEH"));
+          }catch(error){
+            console.error(error);
+          }
+          
+        
       }
-    
-    
-
     },
   },
   mounted() {
@@ -92,7 +142,7 @@ export default {
       .get("http://localhost:3000/api/v1/messages")
       .then((response) => {
         this.messages = response.data;
-        console.log(this.messages)
+        console.log(this.messages);
         this.message_in_focus =
           this.messages.length > 0 ? this.messages[0] : null;
       })
@@ -101,20 +151,23 @@ export default {
         this.errored = true;
       })
       .finally(() => (this.loading = false));
-        
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#popup {
+  font-family: Montserrat;
+  color: #f27a54;
+}
 
-#notanswered{
+#notanswered {
   background-color: green;
   width: 100%;
 }
 
-#answered{
+#answered {
   background-color: red;
   width: 100%;
 }
@@ -123,10 +176,9 @@ export default {
   display: flex;
   height: 50px;
   width: 200px;
-  margin:0px;
+  margin: 0px;
   justify-content: center;
   align-items: start;
-
 }
 
 #input {
@@ -182,7 +234,6 @@ export default {
   background-color: #747d88;
   justify-content: start;
   align-items: center;
-  
 }
 .col-2 {
   display: flex;

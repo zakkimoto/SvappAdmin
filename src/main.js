@@ -14,7 +14,7 @@ import axios from 'axios';
 import User from './views/User.vue'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import geocoder from 'geocoder'
- 
+import Properties from './views/Properties.vue'
 
 
 Vue.prototype.$http = axios;
@@ -141,6 +141,20 @@ const router = new VueRouter(
         path: '/messages',
         name: 'messages',
         component: Messages,
+        /* 
+        beforeEnter: (to, from, next) => {
+          if(store.state.authenticated == false) {
+            next('/login');
+          }else{
+            next();
+          }
+        }
+        */
+      },
+      {
+        path: '/properties',
+        name: 'properties',
+        component: Properties,
         /* 
         beforeEnter: (to, from, next) => {
           if(store.state.authenticated == false) {
