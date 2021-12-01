@@ -6,8 +6,8 @@
     </div>
     <div class="row-2">
       <div class="col-1">
-        <div v-for="m in messages" :key="m.id">
-          <div class="message-box" v-on:click="switch_message(m.id)">
+        <div class="messages-container" v-on:click="switch_message(m.id)" v-for="m in messages" :key="m.id">
+          <div class="message-box" >
             <div id="answered" v-if="m.done">
               {{ m.email }}
             </div>
@@ -16,17 +16,16 @@
             </div>
           </div>
         </div>
+        <h1>Skilaboð eftir: {{messages.length}}</h1>
       </div>
-
+  
       <div class="col-2">
         <div class="col-3">
-          <h1>{{ message_in_focus.question }}</h1>
+          <h1 id="message">{{ message_in_focus.question }} <br>
+          -{{message_in_focus.email }}
+          </h1>
         </div>
-        <div class="col-4">
-          <h1>{{ message_in_focus.answer }}</h1>
-        </div>
-
-        <h1 id="popup" v-if="render">
+        <h1 id="popup" v-if="render" >
           Svar hefur verið sent á viðeigandi aðilla
         </h1>
         <div class="col-5">
@@ -59,13 +58,13 @@ export default {
       answer: null,
       users: null,
       key: 1,
-      render: false,
+      render: null,
       contactparams: {
         from_name: 'Svapp Admin',
         to_name: null,
         message: 'sælirkall',
         answer: 'svar',
-        question_id: 'þetta er id',
+        question_id: null,
         user_email: 'zakkitv@gmail.com',
         reply_to: 'bla',
       },
@@ -125,7 +124,12 @@ export default {
         
           try{
             this.contactparams.message = this.message_in_focus.question
+            console.log(this.contactparams.message)
             this.contactparams.answer = this.message_in_focus.answer
+            this.contactparams.to_name = this.message_in_focus.user_name
+            this.contactparams.question_id = this.message_in_focus.id
+            this.contactparams.user_email = this.message_in_focus.email
+
             console.log(this.message_in_focus.question)
             console.log("try eamil");
             emailjs.send('service_bkc5rum', 'template_aqgbrcc',this.contactparams, emailjs.init("user_I8Ill7xXvGcLUVWAQdKEH"));
@@ -157,20 +161,38 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#popup {
+#message{
   font-family: Montserrat;
-  color: #f27a54;
+  color: white;
+
 }
 
+#popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Montserrat;
+  color: #6FCF97;
+  position: fixed;
+  top: 10%;
+  left: 28%;
+  /* bring your own prefixes */
+  
+}
+
+/*
 #notanswered {
   background-color: green;
   width: 100%;
 }
+*/
 
 #answered {
   background-color: red;
   width: 100%;
 }
+
+/*
 
 .message-box {
   display: flex;
@@ -180,15 +202,36 @@ export default {
   justify-content: center;
   align-items: start;
 }
+*/
+
+.messages-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px;
+  background-color: #F2F4F7;
+  width: 100%;
+  border-bottom-style: solid;
+  border-bottom-color: #6C747E;
+  border-bottom-width: 1px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 100px;
+  cursor: pointer;
+
+
+}
 
 #input {
-  width: 90%;
+  width: 60%;
+  height: 50px;
   border-radius: 4px;
-  margin: 8px auto;
+  margin: 0;
   outline: none;
   padding: 8px;
   box-sizing: border-box;
   transition: 0.3s;
+  background-color: #F2F4F7;
 }
 
 #input:focus {
@@ -199,11 +242,18 @@ export default {
 #button {
   width: 10%;
   border-radius: 4px;
-  margin: 8px auto;
+  margin: 0;
   outline: none;
   padding: 8px;
   box-sizing: border-box;
   transition: 0.3s;
+  height: 50px;
+  margin-right: 5px;
+  background-color: #6FCF97;
+  font-size: 100%;
+  color:white;
+  cursor: pointer;
+
 }
 
 #button:focus {
@@ -240,15 +290,84 @@ export default {
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
   width: 80%;
   height: 94vh;
   background-color: #30363d;
 }
 
 .col-3 {
-  width: 100%;
-  display: flex;
+  transform: translatey(0px);
+  animation: float 5s ease-in-out infinite;
+  text-align: center;
+  
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 15px;
+  color: #774f38;
+  background-color: #F27A54;
+  padding: 50px;
+ 
+  margin: 5%;
+  margin-bottom: 18%;
+  border-radius: 11px;
+  position: relative;
+  box-shadow: 20px 20px #A154F2;
+  font-family: "Montserrat", cursive;
 }
+
+.col-3:after {
+  transform: translatey(0px);
+  animation: float2 5s ease-in-out infinite;
+  content: ".";
+  font-weight: bold;
+  -webkit-text-fill-color: #F27A54;
+  text-shadow: 22px 22px #A154F2;
+  text-align: left;
+  font-size: 55px;
+  width: 55px;
+  height: 11px;
+  line-height: 30px;
+  border-radius: 11px;
+  background-color: #F27A54;
+  position: absolute;
+  display: block;
+  bottom: -30px;
+  left: 0;
+  box-shadow: 22px 22px #A154F2;
+  z-index: -2;
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+@keyframes float2 {
+  0% {
+    line-height: 30px;
+    transform: translatey(0px);
+  }
+  55% {
+    transform: translatey(-20px);
+  }
+  60% {
+    line-height: 10px;
+  }
+  100% {
+    line-height: 30px;
+    transform: translatey(0px);
+  }
+}
+
+
 
 .col-4 {
   height: 90%;
@@ -260,5 +379,9 @@ export default {
   display: flex;
   align-items: end;
   justify-content: end;
+  position: fixed;
+  left:0%;
+  top:92%;
+  
 }
 </style>

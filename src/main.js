@@ -15,6 +15,7 @@ import User from './views/User.vue'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import geocoder from 'geocoder'
 import Properties from './views/Properties.vue'
+import ZoomOnHover from "vue-zoom-on-hover";
 
 
 Vue.prototype.$http = axios;
@@ -22,6 +23,7 @@ Vue.prototype.$http = axios;
 
 
 Vue.config.productionTip = false
+
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -51,6 +53,7 @@ Vue.use(VueGoogleMaps, {
   // installComponents: true,
 });
 Vue.use(geocoder);
+Vue.use(ZoomOnHover);
 
 
 

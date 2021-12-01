@@ -11,7 +11,7 @@
         <h1 id = "texthvitur">LEITA</h1>
         
         
-        <input type="text" v-model="search" placeholder="TEXTI" id="input"/>
+        <input type="text" v-model="search" placeholder="TEXTI" id="text-input"/>
 
 
         <input type="radio" v-model="verified" id="checkbox-1" name="radio-3" value="1">
@@ -196,6 +196,7 @@ export default {
   border-radius: 25px;
   margin: 15px auto;
   overflow-y: scroll;
+  cursor: pointer;
 }
 #texthvitur{
   color: white;
@@ -206,6 +207,7 @@ export default {
   margin:8px auto;
   outline:none;
   padding:8px;
+  cursor: pointer;
   box-sizing:border-box;
   transition:.3s;
 }
@@ -214,6 +216,23 @@ export default {
   border-color:#A154F2;
   box-shadow:0 0 8px 0 #A154F2;
 }
+
+#text-input{
+  width: 70%;
+  border-radius:4px;
+  margin:8px auto;
+  outline:none;
+  padding:8px;
+  box-sizing:border-box;
+  transition:.3s;
+}
+
+#text-input:focus{
+  border-color:#A154F2;
+  box-shadow:0 0 8px 0 #A154F2;
+}
+
+
 
 .container{
   display:flex;

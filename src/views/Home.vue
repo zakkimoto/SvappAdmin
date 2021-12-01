@@ -104,6 +104,7 @@ export default {
   margin: 10px;
   border-radius: 25px;
   filter: drop-shadow(5px 5px 5px black);
+  cursor: pointer;
 }
 
 .user-box {
@@ -117,6 +118,7 @@ export default {
   margin: 10px;
   border-radius: 25px;
   filter: drop-shadow(5px 5px 5px black);
+  cursor: pointer;
 }
 
 #caption {

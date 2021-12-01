@@ -47,8 +47,7 @@ export default {
         display: flex;
         justify-content: center;
         width: 100%;
-        min-height: 50px;
-        max-height: 60px;  
+        height: 6vh;
     }
     header {
         display: flex;
@@ -65,6 +64,7 @@ export default {
     }
 
     #routingbar {
+        cursor: pointer;
         color: #ffff;
         padding-right: 10px;
         padding-left: 10px;
