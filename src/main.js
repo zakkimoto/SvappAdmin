@@ -131,20 +131,20 @@ const router = new VueRouter(
         path: '/users',
         name: 'users',
         component: Users,
-        /* 
+        
         beforeEnter: (to, from, next) => {
           if(store.state.authenticated == false) {
             next('/login');
           }else{
             next();
           }
-        } */
+        } 
       },
       {
         path: '/messages',
         name: 'messages',
         component: Messages,
-        /* 
+        
         beforeEnter: (to, from, next) => {
           if(store.state.authenticated == false) {
             next('/login');
@@ -152,13 +152,13 @@ const router = new VueRouter(
             next();
           }
         }
-        */
+        
       },
       {
         path: '/properties',
         name: 'properties',
         component: Properties,
-        /* 
+        
         beforeEnter: (to, from, next) => {
           if(store.state.authenticated == false) {
             next('/login');
@@ -166,21 +166,21 @@ const router = new VueRouter(
             next();
           }
         }
-        */
+        
       },
 
       {
         path: '/users/:id',
         name: 'user',
         component: User,
-        /* 
+        
         beforeEnter: (to, from, next) => {
           if(store.state.authenticated == false) {
             next('/login');
           }else{
             next();
           }
-        }*/
+        }
       },
 
 
