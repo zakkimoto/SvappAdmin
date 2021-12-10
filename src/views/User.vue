@@ -5,7 +5,7 @@
       <div class="user-box">
         <div class="user-img-name">
           <img
-            v-bind:src="this.user[0].image_url"
+            v-bind:src="this.user[0].url"
             id="profile-photo"
             alt="Mynd ekki fundin"
           />

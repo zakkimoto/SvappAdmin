@@ -42,7 +42,7 @@
           <!-- senda user ID áfram á næstu síðu þegar ég er að fara routa á clickið {{u.user_name.split(",").splice(1)}} -->
           
           {{u.user_name.replace(")", "").replace("(", "").split(",")[1] + " " + u.user_name.replace(")", "").replace("(", "").split(",")[3]}}
-          <img v-bind:src="u.image_url" id="profile-photo" width=70% height=70% alt="Mynd ekki fundin">
+          <img v-bind:src="u.url" id="profile-photo" width=70% height=70% alt="Mynd ekki fundin">
           {{u.email}}
           <div class="not-verified" v-if="u.verified == -1">
           </div>
