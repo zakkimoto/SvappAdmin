@@ -1,6 +1,8 @@
 
 <template>
   <div>
+      <!-- hér er google maps fyrir allar eignir, hægt er að sjá að ég er með marker þarna inni, ég á í raun bara eftir að tengjast stærri gagnagrunni -->
+      <!-- og þá get ég sett upplýsingar af húsin inní markerinn sjálfann -->
     <Header />
     <GmapMap
                 id="Map"
@@ -39,18 +41,21 @@ export default {
           },
     };
   },
+  // náum í allar eignir frá gagnagrunni
   mounted(){
       axios
         .get('http://localhost:3000/api/v1/properties/all')
         .then(response => {
             this.properties = response.data
             console.log(this.properties)
+            // for loop er þarna til þess að fara í gegnum allar eignir svo við skráum allar eignir sem koma upp hjá okkur inná kortið
             for (let i = 0; i < this.properties.length; i++){
                 console.log(response.data[i].street_name)
                 axios
                     .get('https://maps.googleapis.com/maps/api/geocode/json?address=,' + response.data[i].street_name+ ' ' + response.data[i].street_name + ' Iceland&key=AIzaSyDImhMtVnZfl8Iim3YJqTbZLsHYs75NuLg')
                     .then(response =>{
                         console.log(response.data.results[0].geometry.location.lat)
+                        // ef að long og lat eru ekki undefined þá bætum við þessari eign við listan okkar í data() sem kallast marker
                         if(response.data.results[0].geometry.location.lat != undefined){
                             this.marker.push({
                             lat: response.data.results[0].geometry.location.lat, 

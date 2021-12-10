@@ -4,7 +4,9 @@
     <img src="../assets/logo.png" width="125" height="50" id="logo"/>
     <input type="text" name="username" v-model="input.username" placeholder="Notendanafn" id="inputfieldlogin"/>
     <input type="password" name="password" v-model="input.password" placeholder="Lykilorð" id="inputfieldlogin"/>
+    <!-- þegar það er búið að setja inn lykilorð og notendanafn þá getur notandi ýtt á skrá inn takka, sem fer með okkur í login() function -->
     <button type="button" v-on:click="login()" id="loginbutton">Skrá inn</button>
+    <!-- hér fer notandi yfir á gleymt lykilorð síðu -->
     <a id="gleymtlykilordhyperlink" v-on:click="recover()">Gleymt Lykilorð</a>
   </div>
 </template>
@@ -25,9 +27,12 @@ export default {
     recover(){
       this.$router.replace({name: "recover"});
     },
+    // þetta er harðkóðað inn núna, en við þurfum að tengja við firebase, firebase mun sjá um að encrypta gögnunum fyrir okkur og þar með halda utanum öryggi
     login(){
       if(this.input.username == "admin" && this.input.password == "pass"){
+        //breytum starfsmanni í auðkenndur
         this.$store.commit("setAuthentication", true);
+        //förum í gegnum secure padding, sem þýðir að þetta er ghost síða sem redirectar á heim, en hún fær traffíkina í gegnum sig, (las um að það sé sniðugt)
         this.$router.replace({name: "secure"});
         
         
@@ -43,7 +48,7 @@ export default {
 }
 </script>
   
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
@@ -51,7 +56,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items:center;
-    height: 100vh; /* For 100% screen height */
+    height: 100vh; /* fyrir 100% skjá hæð */
     width:  100vw;
     justify-content:center;
     align-items:center;

@@ -1,16 +1,20 @@
 
 <template>
+<!-- hellingur af flexboxum, row og col eiga að vera til að hjálpa mér að átta mig á hvaða flex box ég er að notast við -->
   <div class="container">
     <div class="row-1">
       <Header />
     </div>
     <div class="row-2">
       <div class="col-1">
+        <!-- hérna förum við inní lykkju sem býr til öll skilaboð sem við sóttum og renderar það vinstrameginn á síðunni okkar -->
+        <!-- við gerum hvert einasta skilaboð "clickable" þar með getum við tengt function við hvert og einasta skilaboð. switch_message breytir focus skilaboðinu -->
         <div class="messages-container" v-on:click="switch_message(m.id)" v-for="m in messages" :key="m.id">
           <div class="message-box" >
             <div id="answered" v-if="m.done">
               {{ m.email }}
             </div>
+            <!-- þetta er kóði sem keyrist ekki út á síðunni, eins og staðan er nú, en ákvað að hafa hann hérna inni ef menn vilja sækja svöruð skilaboð, gæti verið góð viðbót -->
             <div id="notanswered" v-else>
               {{ m.email }}
             </div>
@@ -21,6 +25,7 @@
   
       <div class="col-2">
         <div class="col-3">
+          <!-- hérna keyrum við út skilaboðið sem er focus, þar að segja skilaboðið sem við erum að svara -->
           <h1 id="message">{{ message_in_focus.question }} <br>
           -{{message_in_focus.email }}
           </h1>
@@ -49,6 +54,7 @@ export default {
   components: {
     Header,
   },
+
   data() {
     return {
       messages: null,
@@ -62,11 +68,11 @@ export default {
       contactparams: {
         from_name: 'Svapp Admin',
         to_name: null,
-        message: 'sælirkall',
-        answer: 'svar',
+        message: null,
+        answer: null,
         question_id: null,
-        user_email: 'zakkitv@gmail.com',
-        reply_to: 'bla',
+        user_email: null,
+        reply_to: null,
       },
     };
   },
@@ -79,6 +85,7 @@ export default {
     },
     send_answer() {
       this.loading = true;
+      // hér förum við inn ef að svar er ekki null, þá sendum við patch request til þess að bæta svarinu við í gagnagrunninn
       if (this.answer !== null) {
         this.message_in_focus.answer = this.answer;
         axios
@@ -92,7 +99,7 @@ export default {
             this.messages = response.data;
             this.message_in_focus =
               this.messages.length > 0 ? this.messages[0] : null;
-            //this.$router.go()
+            
             axios
               .get("http://localhost:3000/api/v1/messages")
               .then((response) => {
@@ -121,7 +128,7 @@ export default {
             this.errored = true;
           })
           .finally(() => (this.loading = false));
-        
+          // hér reynum við að senda email á notanda, ef það virkar ekki þá fáum við upp error
           try{
             this.contactparams.message = this.message_in_focus.question
             console.log(this.contactparams.message)
@@ -176,33 +183,18 @@ export default {
   position: fixed;
   top: 10%;
   left: 28%;
-  /* bring your own prefixes */
+
   
 }
 
-/*
-#notanswered {
-  background-color: green;
-  width: 100%;
-}
-*/
+
 
 #answered {
   background-color: red;
   width: 100%;
 }
 
-/*
 
-.message-box {
-  display: flex;
-  height: 50px;
-  width: 200px;
-  margin: 0px;
-  justify-content: center;
-  align-items: start;
-}
-*/
 
 .messages-container{
   display: flex;

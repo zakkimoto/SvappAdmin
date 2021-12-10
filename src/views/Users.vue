@@ -10,10 +10,10 @@
         
         <h1 id = "texthvitur">LEITA</h1>
         
-        
+        <!-- texta box fyrir leitarvélina -->
         <input type="text" v-model="search" placeholder="TEXTI" id="text-input"/>
 
-
+        <!-- Allir flokkar sem hægt er að leitaúr -->
         <input type="radio" v-model="verified" id="checkbox-1" name="radio-3" value="1">
         <label for="vehicle1"> Búið að auðkenna </label>
         <input type="radio" v-model="verified" id="checkbox-2" name="radio-3" value="0">
@@ -85,9 +85,11 @@ export default {
     }
   },
   methods: {
+    // hér förum við á rétt route fyrir hvern og einasta notanda þegar við ýtum á hann
     routeToUser(id) {
       this.$router.push({ name: 'user', params: { id: id } })
     },
+    // þetta er filterinn, í raun listi sem filterast eftir hvaða leitarsilyrðum við setjum fram, síðan sendum við það í data svo síðan sýni nýjugögnin okkar (innbyggður hook)
     filter() {
       this.filtered_users =  this.users.filter(user => user.user_name.includes(this.search) || user.email.includes(this.search))
       if(this.verified !== null){
@@ -114,6 +116,7 @@ export default {
       
       console.log(this.filtered_users);
     },
+    //hreynsa leytarskilyrð
     clear(){
       this.filtered_users = this.users;
       this.verified = null;
@@ -122,6 +125,8 @@ export default {
       this.search = "";
     }
   },
+
+  // notum axios fyrir bakendann og köllum á alla notendur, síðan bætum við þeim við data()
 
   mounted () {
       axios
@@ -140,17 +145,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only 
-.row-2 {
-  background-color: yellow;
-  display:flex;
-  
-}
-
-.row-2 div{
-  border: 1px solid black;
-  
-}-->
 <style scoped>
 
 #svapp-animation{

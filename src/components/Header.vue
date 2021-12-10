@@ -14,6 +14,7 @@
 <script>
 export default {
     name: "Header",
+    // þetta er routerinn hjá okkur fyrir alla síðunna, víst að við notum þennan kóða nánast allstaðar, þá höfum við þetta sem component og importum yfir í hin skjölin (views)
     methods:{
         home(){
             this.$router.replace({name: "home"});

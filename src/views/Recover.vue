@@ -3,6 +3,7 @@
     <h1 id="gradienttext">GLEYMT LYKILORÐ</h1>
     <img src="../assets/logo.png" width="125" height="50" id="logo"/>
     <input type="text" id="inputfieldrecover" placeholder="Email" v-model="input.email"/>
+    <!-- ef þessi takki er ýttur á, þá ertu sendur aftur á skrá inn skjá, ég er með kóðann til að klára þetta, en vantar að kaupa emailJS -->
     <button type="button" v-on:click="recoverpass()" id="reoverbutton">Endurheimta Lykilorð</button>
   </div>
 </template>
@@ -18,6 +19,7 @@ export default {
     }
   },
   methods: {
+    // mjög einfalt, kemur alert á skjá, þegar þú ýtir á ok, þá ferðu aftur á skrá inn skjáinn
     recoverpass(){
       alert("Email Hefur verið sent áfram á netfangið: " + this.input.email + "\n" + "ýttu á ok til að halda áfram");
       this.$router.replace({name: "login"});

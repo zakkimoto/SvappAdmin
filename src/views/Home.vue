@@ -4,13 +4,14 @@
     <Header/>
     
     <div class="row" id="box">
-
+      <!-- skilaboð í bið, nær bara í öll skilaboð sem á eftir að svara og gefur fram tölu, hægt er að úta á þennan takka til að fara á skilaboðasíðu-->
       <div class="message-box" v-on:click="routeToMessages()">
         <div id="caption">
           {{messages.length}}
         </div>
         <h1 id="caption"> Skilaboð í bið </h1>
       </div>
+      <!-- notendur í bið, nær bara í alla notendur sem á eftir að auðkenna og gefur fram tölu, hægt er að ýta á þennan takka til að fara á notendasíðunna -->
       <div class="user-box" id="box" v-on:click="routeToUsers()">
         <div id="caption">
           {{users.length}}
@@ -44,6 +45,7 @@ export default {
     }
   },
   mounted () {
+    // náum í öll active skilaboð, active þýðir á eftir að svara þeim.
     axios
       .get('http://localhost:3000/api/v1/messages/active')
       .then(response => {
@@ -55,7 +57,7 @@ export default {
         this.messageerrored = true
       })
       .finally(() => this.messageloading = false)
-
+      // náum í alla notendur sem eru pending, pending þýðir á eftir að auðkenna og notandi er búinn að setja inn gögnin sín.
       axios
         .get('http://localhost:3000/api/v1/users/pending')
         .then(response => {
@@ -70,6 +72,7 @@ export default {
         .finally(() => this.loading = false)
   },
   methods: {
+    // einfaldur router fyrir bæði notendur og skilaboð
     routeToUsers(){
       this.$router.replace({name: "users"})
     },
@@ -83,7 +86,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 .row {
   height: 94vh;

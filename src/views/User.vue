@@ -4,11 +4,13 @@
     <div class="col-1">
       <div class="user-box">
         <div class="user-img-name">
+            <!-- mynd fyrir notanda -->
           <img
             v-bind:src="this.user[0].url"
             id="profile-photo"
             alt="Mynd ekki fundin"
           />
+          <!-- setja nöfn notanda rétt upp -->
           <h2 id="text">
             {{
               this.user[0].user_name
@@ -22,12 +24,14 @@
                 .split(",")[3]
             }}
           </h2>
+          <!-- ef notandi er ekki auðkenndur förum við hér inn til þess að geta auðkennt notanda -->
           <div v-if="this.user[0].verified == 0" class="approve-button">
             <button id="approve-button" v-on:click="verify()" type="button">
               samþykkja notanda
             </button>
           </div>
         </div>
+        <!-- ef að notandi er auðkenndur þá sleppum við að fá skjölin sem hann var búinn að senda inn og fáum allar helstu uppl. -->
         <div class="user-verified" v-if="this.user[0].verified == 1">
           <div class="user-userinfo">
             <div id="text2">
@@ -63,7 +67,7 @@
             </GmapMap>
           </div>
         </div>
-
+        <!-- hér koma inn myndirnar sem notandi hefyr sett inn til þess að vera auðkenndur -->
         <div class="pending" v-if="this.user[0].verified == 0">
           <div class="id-photos">
             <img
@@ -113,6 +117,7 @@ export default {
     };
   },
   methods: {
+      //auðkenna notendur sendum put request á bakendan okkar
     verify() {
       console.log("hérna" + this.url_data);
       axios
@@ -127,21 +132,20 @@ export default {
     },
     
   },
-  //methods: {
-  //routeToUser(id) {
-  //this.$router.push({ name: 'user', params: { id: id } })
-  //}
-  //},
+  
   mounted() {
+      //byrjum á því að ná í ID á notanda til þess að geta sent rétt ID til bakenda. 
     this.url_data = this.$route.params.id;
     console.log(this.url_data);
-
+    // fyllum upp data() með því að ná í fasteign eftir ID frá notanda
     axios
       .get("http://localhost:3000/api/v1/properties/" + this.$route.params.id)
       .then((response) => {
         console.log(response.data);
         this.property = response.data;
         console.log(this.property[0].street_name);
+        // þegar ég er búinn að ná í fasteign og það kom ekki error, þá sendum við aðra request sem inniheldur heimilisfang,
+        // þessi request fer á google maps geocode, hann skilar okkur svo lng og lat
         axios
           .get(
             "https://maps.googleapis.com/maps/api/geocode/json?address=," +
@@ -152,7 +156,9 @@ export default {
           )
           .then((response) => {
             console.log(response.data);
+            // bætum lng og lat við data()
             this.location = response.data;
+            // breytum hvar center á google maps er með því að setja lng og lat af þessari eign þar inn.
             this.center = {
               lat: this.location.results[0].geometry.location.lat,
               lng: this.location.results[0].geometry.location.lng,
@@ -169,7 +175,7 @@ export default {
         console.error(error);
         this.errored = true;
       });
-
+    // Náum í notanda frá gagnagruni
     axios
       .get("http://localhost:3000/api/v1/users/" + this.$route.params.id)
       .then((response) => {
@@ -185,7 +191,7 @@ export default {
 };
 </script>
 
-<!-- <h1>user {{ $route.params.id }}</h1>-->
+
 <style scoped>
 .approve-button{
     display: flex;

@@ -24,6 +24,7 @@ Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false
 
+// Global scope
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -56,6 +57,7 @@ Vue.use(geocoder);
 Vue.use(ZoomOnHover);
 
 
+// hér höldum við utanum hvort að starfsmaður sé búinn að skrá sig inn.
 
 const store = new Vuex.Store(
   {
@@ -69,6 +71,8 @@ const store = new Vuex.Store(
     }
   }
 );
+
+// allar síður sem starfsmaður getur farið inná
 
 const router = new VueRouter(
   {
@@ -186,6 +190,8 @@ const router = new VueRouter(
 
   ]
 });
+
+// færum öll components og attributes yfir í app.vue svo við getum notað það allstaðar
 
 new Vue({
   render: h => h(App),
