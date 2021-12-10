@@ -3,7 +3,7 @@
     <h1 id="gradienttext">GLEYMT LYKILORÐ</h1>
     <img src="../assets/logo.png" width="125" height="50" id="logo"/>
     <input type="text" id="inputfieldrecover" placeholder="Email" v-model="input.email"/>
-    <button type="button" v-on:click="recoverpass()" id="inputfieldrecover">Endurheimta Lykilorð</button>
+    <button type="button" v-on:click="recoverpass()" id="reoverbutton">Endurheimta Lykilorð</button>
   </div>
 </template>
 
@@ -54,6 +54,24 @@ export default {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-image: linear-gradient(to right, #F27A54, #A154F2);
+  }
+
+  
+
+  #reoverbutton{
+    width: 50%;
+    border-radius:4px;
+    margin:8px auto;
+    outline:none;
+    padding:8px;
+    color: white;
+    background-color: #6FCF97;
+    box-sizing:border-box;
+    transition:.3s;
+  }
+  #reoverbutton:focus{
+    border-color:#A154F2;
+    box-shadow:0 0 8px 0 #A154F2;
   }
 
     #inputfieldrecover{

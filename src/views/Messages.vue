@@ -210,10 +210,11 @@ export default {
   justify-content: center;
   padding: 10px;
   margin: 10px;
-  background-color: #F2F4F7;
+  color: white;
+  background-color: #6FCF97;
   width: 100%;
   border-bottom-style: solid;
-  border-bottom-color: #6C747E;
+  border-bottom-color: #3C444C;
   border-bottom-width: 1px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 100px;
@@ -281,7 +282,7 @@ export default {
   flex: 1;
   width: 20px;
   height: 94vh;
-  background-color: #747d88;
+  background-color: #747D88;
   justify-content: start;
   align-items: center;
 }

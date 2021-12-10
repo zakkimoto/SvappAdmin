@@ -4,7 +4,7 @@
     <img src="../assets/logo.png" width="125" height="50" id="logo"/>
     <input type="text" name="username" v-model="input.username" placeholder="Notendanafn" id="inputfieldlogin"/>
     <input type="password" name="password" v-model="input.password" placeholder="Lykilorð" id="inputfieldlogin"/>
-    <button type="button" v-on:click="login()" id="inputfieldlogin">Skrá inn</button>
+    <button type="button" v-on:click="login()" id="loginbutton">Skrá inn</button>
     <a id="gleymtlykilordhyperlink" v-on:click="recover()">Gleymt Lykilorð</a>
   </div>
 </template>
@@ -77,6 +77,22 @@ export default {
     transition:.3s;
   }
   #inputfieldlogin:focus{
+    border-color:#A154F2;
+    box-shadow:0 0 8px 0 #A154F2;
+  }
+
+  #loginbutton{
+    width: 50%;
+    border-radius:4px;
+    margin:8px auto;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    color: white;
+    background-color: #6FCF97;
+    transition:.3s;
+  }
+  #loginbutton:focus{
     border-color:#A154F2;
     box-shadow:0 0 8px 0 #A154F2;
   }

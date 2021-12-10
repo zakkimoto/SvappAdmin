@@ -23,7 +23,7 @@
             }}
           </h2>
           <div v-if="this.user[0].verified == 0" class="approve-button">
-            <button id="inputfieldlogin" v-on:click="verify()" type="button">
+            <button id="approve-button" v-on:click="verify()" type="button">
               samþykkja notanda
             </button>
           </div>
@@ -197,13 +197,13 @@ export default {
     height: 100%;
 }
 
-#inputfieldlogin{
+#approve-button{
     font-family: Montserrat;
     color: white;
     font-weight: bold;
     font-size: 20px;
     width: 100%;
-    background-color: #30363D;
+    background-color: #6FCF97;
     border-radius:50px;
     margin:8px auto;
     outline:none;
